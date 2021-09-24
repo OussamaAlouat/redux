@@ -33,14 +33,14 @@ const createClaim = (name, amountOfMoneyToCollect) => {
 // Reducers (departments)
 const claimsHistory = (oldListOfClaims = [], action) => {
   if (action.type === 'CREATE_CLAIM') {
-    return [ ...oldListOfClaims, payload ]
+    return [ ...oldListOfClaims, action.payload ]
   }
 
   return oldListOfClaims;
 };
 
 
-const acounting = (bagofmoney = null, action) => {
+const acounting = (bagofmoney = 100, action) => {
   if (action.type === 'CREATE_CLAIM') {
     return bagofmoney - action.payload.amountOfMoneyToCollect
   } else if (action.type === 'CREATE_POLICY') {
@@ -66,9 +66,22 @@ const ourDepartamennts = combineReducers({
   policies: policies
 });
 
-const store = createStore(ourDepartamennts)
-const action = createPolicy('Alex', 20);
-console.log('Dispatched')
-store.dispatch(action);
+const store = createStore(ourDepartamennts);
 
-console.log('The satate of store is:' , store.getState())
+console.log('Dispatched');
+
+store.dispatch(createPolicy('Alex', 20));
+store.dispatch(createPolicy('Jim', 30));
+store.dispatch(createPolicy('Bob', 40));
+
+console.log('State when added 3 plicies: ', store.getState());
+
+store.dispatch(createClaim('Alex', 120));
+store.dispatch(createClaim('Jim', 50));
+
+console.log('State when added 2 claims: ', store.getState());
+
+
+store.dispatch(deletePolicy('Bob'))
+
+console.log('The state of store at the end is: ' , store.getState())
