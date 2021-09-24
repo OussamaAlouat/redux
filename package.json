@@ -8,5 +8,7 @@
   },
   "author": "Oussama Alouat",
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.6.1"
+  }
 }
