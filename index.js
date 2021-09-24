@@ -1,3 +1,4 @@
+import { createStore, combineReducers } from 'redux'
 
 // People dropping off a form (Action creator)
 const createPolicy = (name, amount) => {
@@ -39,7 +40,7 @@ const claimsHistory = (oldListOfClaims = [], action) => {
 };
 
 
-const acounting = (bagofmoney, action) => {
+const acounting = (bagofmoney = null, action) => {
   if (action.type === 'CREATE_CLAIM') {
     return bagofmoney - action.payload.amountOfMoneyToCollect
   } else if (action.type === 'CREATE_POLICY') {
@@ -57,4 +58,17 @@ const policies = (listofPolicies = [],  action) => {
   }
 
   return listofPolicies;
-}
+};
+
+const ourDepartamennts = combineReducers({
+  acounting: acounting,
+  claimsHistory: claimsHistory,
+  policies: policies
+});
+
+const store = createStore(ourDepartamennts)
+const action = createPolicy('Alex', 20);
+console.log('Dispatched')
+store.dispatch(action);
+
+console.log('The satate of store is:' , store.getState())
